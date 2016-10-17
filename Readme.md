@@ -22,6 +22,15 @@ Toggle comment of a block. Yes, it's a motion mapping, `ip` could be any motion 
 
 Select a block and toggle comment
 
+### g:mycomment_indent
+
+The `regex` of the comment `indent`.
+
+```
+let g:mycomment_indent = '^*'   " Comment will be at the beginning of string
+let g:mycomment_indent = '^\s*' " Default regex, comment after whitespace
+```
+
 ## More productive
 
 You can use `.` to repeat your last comment command, no need [vim-repeat](https://github.com/tpope/vim-repeat).

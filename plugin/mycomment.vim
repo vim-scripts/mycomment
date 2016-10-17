@@ -13,7 +13,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 vnoremap <silent> <leader>c :call <SID>CommentFromSelected(visualmode(), 1)<cr>
-nnoremap <silent> <leader>c :set operatorfunc=<SID>CommentFromSelected<cr>g@
+nnoremap <silent> <leader>c :set operatorfunc=<SID>CommentFromSelected<cr>
 nnoremap <silent> <leader>cc :<C-U>set opfunc=<SID>CommentFromSelected<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 
 let s:xmls = ['html', 'xhtml', 'xml']
@@ -47,6 +47,7 @@ let s:comment_begin = {
       \"go"         : "//",
       \"java"       : "//",
       \"javascript" : "//",
+      \"javascript.jsx" : "//",
       \"plaintex"   : "%",
       \"tex"        : "%",
       \"vim"        : "\"",
@@ -67,7 +68,8 @@ let s:comment_end = {
       \"markdown"   : "-->",
       \}
 
-let s:regex = '^\s*'
+let s:regex = exists("g:mycomment_indent") ? g:mycomment_indent : '^\s*'
+
 function! s:CommentToggle(line, com_beg, com_end, hasComment, min)
   let indent = matchstr(a:line, s:regex)
   let sl = len(indent)
@@ -99,9 +101,8 @@ function! s:CommentLines(start, end, cur)
     call add(lines, line)
   endfor
   call map(lines, 's:CommentToggle(v:val, com_begin, com_end, hasComment, min)')
-  "echo len(lines)
   call setline(a:start, lines)
 endfunction
 
-
 let &cpo = s:save_cpo
+
